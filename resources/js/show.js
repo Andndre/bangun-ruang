@@ -45,19 +45,81 @@ scene.add(directionalLight);
 
 // Load 3D Model (Example: GLTF)
 const loader = new GLTFLoader();
+let modelMesh; // Variabel untuk menyimpan referensi model
+
 loader.load(
-    `/models/${model}.glb`, // Replace with the actual path to your 3D model
+    `/models/${model}.glb`,
     function (gltf) {
-        scene.add(gltf.scene);
+        modelMesh = gltf.scene;
+
+        // Set initial scale to 0
+        modelMesh.scale.set(0, 0, 0);
+        scene.add(modelMesh);
+
+        // Animation variables
+        let scale = 0;
+        const targetScale = 1;
+        const animationDuration = 1000; // 1 second
+        const startTime = Date.now();
+
+        // Set initial rotation
+        modelMesh.rotation.set(
+            THREE.MathUtils.degToRad(-30),  // x-rotation
+            THREE.MathUtils.degToRad(45),   // y-rotation
+            0                               // z-rotation
+        );
+
+        // Target rotation (back to 0,0,0)
+        const targetRotation = { x: 0, y: THREE.MathUtils.degToRad(90 + 45), z: 0 };
+        const startRotation = {
+            x: modelMesh.rotation.x,
+            y: modelMesh.rotation.y,
+            z: modelMesh.rotation.z
+        };
+
+        // Animate function
+        function animateModel() {
+            const currentTime = Date.now();
+            const progress = Math.min(1, (currentTime - startTime) / animationDuration);
+
+            // Ease out quad function for smoother animation
+            const easedProgress = progress < 0.5
+                ? 2 * progress * progress
+                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+            // Animate scale
+            scale = easedProgress * targetScale;
+            modelMesh.scale.set(scale, scale, scale);
+
+            // Animate rotation
+            modelMesh.rotation.x = startRotation.x + (targetRotation.x - startRotation.x) * easedProgress;
+            modelMesh.rotation.y = startRotation.y + (targetRotation.y - startRotation.y) * easedProgress;
+            modelMesh.rotation.z = startRotation.z + (targetRotation.z - startRotation.z) * easedProgress;
+
+            if (progress < 1) {
+                requestAnimationFrame(animateModel);
+            }
+        }
+
+        // Start the animation
+        animateModel();
     },
-    undefined, // Optional: onProgress callback
+    undefined,
     function (error) {
         console.error('An error occurred while loading the model:', error);
     }
 );
 
 // Initial camera position
-camera.position.z = 5;
+camera.position.z = 8; // Increased from 5 to 8 for better initial view
+camera.position.y = 2; // Slightly elevated view
+
+// Set controls target to center of the scene
+controls.target.set(0, 0, 0);
+
+// Enable auto-rotation for better initial view
+// controls.autoRotate = true;
+// controls.autoRotateSpeed = 1.0; // Slower rotation speed
 
 // Animation loop
 function animate() {
