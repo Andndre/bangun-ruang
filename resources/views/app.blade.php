@@ -8,7 +8,7 @@
         <div class="fixed -top-54 left-1/2 -translate-x-1/2 w-[370px] h-[370px] bg-blue-500 rounded-full"></div>
         <!-- Judul -->
         <div class="relative z-10 flex justify-center pt-14">
-            <h1 class="text-2xl font-bold text-white uppercase">Ruang Bangun</h1>
+            <h1 class="text-2xl font-bold text-white uppercase">Bangun Ruang</h1>
         </div>
 
         <!-- Container Tombol -->
