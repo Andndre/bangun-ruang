@@ -23,14 +23,14 @@
 
         <!-- Footer Images Absolute -->
         <div class="absolute w-full bottom-0 left-0">
-            <img src="{{ asset('images/ui1.png') }}" alt="Ruang Bangun"
-                 class="absolute left-4 bottom-0 w-24 h-24">
+            <img src="{{ asset('images/ui3.png') }}" alt="Ruang Bangun"
+                 class="absolute -left-8 -bottom-8 w-32">
 
             <img src="{{ asset('images/ui2.png') }}" alt="Ruang Bangun"
-                 class="absolute right-24 bottom-0 w-24 h-24">
+                 class="absolute right-28 -bottom-8 w-36 opacity-85">
+            <img src="{{ asset('images/ui1.png') }}" alt="Ruang Bangun"
+                 class="absolute right-0 -bottom-16 w-44">
 
-            <img src="{{ asset('images/ui3.png') }}" alt="Ruang Bangun"
-                 class="absolute right-4 bottom-4 w-24 h-24">
         </div>
     </div>
 </x-app-layout>
